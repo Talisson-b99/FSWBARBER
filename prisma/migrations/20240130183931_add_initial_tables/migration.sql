@@ -22,6 +22,7 @@ CREATE TABLE "Service" (
     "name" TEXT NOT NULL,
     "price" DECIMAL(10,2) NOT NULL,
     "barbershopId" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
     "description" TEXT NOT NULL,
 
     CONSTRAINT "Service_pkey" PRIMARY KEY ("id")

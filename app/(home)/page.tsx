@@ -17,7 +17,7 @@ export default async function Home() {
         <h2 className="text-xl">
           Olá <span className="font-bold">Talisson!</span>
         </h2>
-        <p className="text-gray-25 text-sm capitalize">
+        <p className="text-sm capitalize text-gray-25">
           {format(new Date(), "EE',' dd 'de' MMMM", {
             locale: ptBR,
           })}
@@ -27,17 +27,17 @@ export default async function Home() {
         <Search />
       </div>
       <div className="px-5 pt-9">
-        <h2 className="text-gray-25 mb-3 text-xs font-bold uppercase">
+        <h2 className="mb-3 text-xs font-bold uppercase text-gray-25">
           Agendamentos
         </h2>
         <BookingItem />
       </div>
 
       <div className="px-5 pt-6">
-        <h2 className="text-gray-25 mb-3 text-xs font-bold uppercase">
+        <h2 className="mb-3 text-xs font-bold uppercase text-gray-25">
           Recomendados
         </h2>
-        <div className="scrollbar scrollbar-thumb-primary  scrollbar-h-1.5 scrollbar-thumb-rounded-sm flex gap-4 overflow-x-scroll ">
+        <div className="flex gap-4  overflow-x-scroll scrollbar scrollbar-thumb-primary scrollbar-thumb-rounded-sm scrollbar-h-1.5 ">
           {barbershops.map((barbershop) => (
             <BarbershopItem barbershop={barbershop} key={barbershop.id} />
           ))}
@@ -45,10 +45,10 @@ export default async function Home() {
       </div>
 
       <div className="px-5 pt-6">
-        <h2 className="text-gray-25 mb-3 text-xs font-bold uppercase">
+        <h2 className="mb-3 text-xs font-bold uppercase text-gray-25">
           Populares
         </h2>
-        <div className="scrollbar scrollbar-thumb-primary  scrollbar-h-1.5 scrollbar-thumb-rounded-sm flex gap-4 overflow-x-scroll ">
+        <div className="flex gap-4  overflow-x-scroll scrollbar scrollbar-thumb-primary scrollbar-thumb-rounded-sm scrollbar-h-1.5 ">
           {barbershops.map((barbershop) => (
             <BarbershopItem barbershop={barbershop} key={barbershop.id} />
           ))}

@@ -8,6 +8,7 @@ import { MapPin, Star } from 'lucide-react'
 import Image from 'next/image'
 
 import InfoDetail from './_componentes/Info-detail'
+import ServiceItem from './_componentes/Service-item'
 
 async function getBarberDetails(barberId: string) {
   const barber = await db.barbershop.findUnique({
@@ -18,9 +19,20 @@ async function getBarberDetails(barberId: string) {
   return barber
 }
 
+async function getServicesToBarber(barberId: string) {
+  const services = await db.service.findMany({
+    where: {
+      barbershopId: barberId,
+    },
+  })
+  return services
+}
+
 const BarberDetails = async ({ params }: { params: { barberId: string } }) => {
   const barber = await getBarberDetails(params.barberId)
+  const services = await getServicesToBarber(params.barberId)
 
+  if (!services) return null
   if (!barber) return null
   return (
     <div className="pb-12">
@@ -43,14 +55,14 @@ const BarberDetails = async ({ params }: { params: { barberId: string } }) => {
               <MapPin size={16} color="#8162FF" />
               {barber.address}
             </p>
-            <p className="text-gray-25 flex items-center gap-2 text-xs">
+            <p className="flex items-center gap-2 text-xs text-gray-25">
               <Star size={16} fill="#8162FF" color="#8162FF" />
               5,0 (889 avaliações)
             </p>
           </div>
         </CardContent>
       </Card>
-      <Tabs className="mb-10 mt-6">
+      <Tabs className="mb-10 mt-6" defaultValue="services">
         <TabsList className="gap-2.5 bg-transparent px-5">
           <TabsTrigger
             value="services"
@@ -65,7 +77,11 @@ const BarberDetails = async ({ params }: { params: { barberId: string } }) => {
             Informações
           </TabsTrigger>
         </TabsList>
-
+        <div className="mt-6">
+          {services.map((service) => (
+            <ServiceItem service={service} key={service.id} />
+          ))}
+        </div>
         <InfoDetail />
       </Tabs>
     </div>

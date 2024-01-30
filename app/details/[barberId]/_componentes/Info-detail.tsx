@@ -43,7 +43,7 @@ const hours = [
 const InfoDetail = () => {
   return (
     <TabsContent value="infos">
-      <h3 className="text-gray-25 mt-6 px-5 text-xs font-bold uppercase">
+      <h3 className="mt-6 px-5 text-xs font-bold uppercase text-gray-25">
         Sobre nós
       </h3>
       <Card className="border-0 border-b bg-transparent px-5">
@@ -78,7 +78,7 @@ const InfoDetail = () => {
         <TableBody>
           {hours.map((hour) => (
             <TableRow className="border-0" key={hour.day}>
-              <TableCell className="text-gray-25 text-sm">{hour.day}</TableCell>
+              <TableCell className="text-sm text-gray-25">{hour.day}</TableCell>
               <TableCell className="text-end text-sm">{hour.hours}</TableCell>
             </TableRow>
           ))}
