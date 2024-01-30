@@ -25,6 +25,7 @@ const config = {
         gray: {
           25: '#838896',
         },
+
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -80,7 +81,11 @@ const config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    require('tailwind-scrollbar')({ nocompatible: true }),
+    require('tailwindcss-animate'),
+  ],
 } satisfies Config
 
 export default config
