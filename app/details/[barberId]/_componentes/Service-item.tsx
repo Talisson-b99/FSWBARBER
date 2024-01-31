@@ -21,8 +21,8 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
     <TabsContent value="services">
       <Card className="mx-5 mb-3 rounded-[8px]">
         <CardContent className="p-3">
-          <div className="flex gap-3 w-ful">
-            <div className="relative min-h-28 max-h-28 min-w-28 max-w-28">
+          <div className="w-ful flex gap-3">
+            <div className="relative max-h-28 min-h-28 min-w-28 max-w-28">
               <Image
                 src={service.imageUrl}
                 alt={service.name}
@@ -33,7 +33,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                 height={0}
               />
             </div>
-            <div className="flex flex-col w-full">
+            <div className="flex w-full flex-col">
               <div>
                 <h2 className="text-sm font-bold">{service.name}</h2>
                 <p className="mt-1 text-sm text-gray-25">

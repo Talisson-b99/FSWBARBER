@@ -40,7 +40,7 @@ const BarbershopItem = ({ barbershop }: BarbershoItemProps) => {
             <h2 className="overflow-hidden text-ellipsis text-nowrap  font-bold">
               {barbershop.name}
             </h2>
-            <p className="text-gray-25 mb-3 mt-1 overflow-hidden text-ellipsis text-nowrap  text-xs">
+            <p className="mb-3 mt-1 overflow-hidden text-ellipsis text-nowrap text-xs  text-gray-25">
               {barbershop.address}
             </p>
             <Button
