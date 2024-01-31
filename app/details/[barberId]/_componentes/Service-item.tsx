@@ -1,12 +1,15 @@
+'use client'
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Button } from '@/app/_components/ui/button'
 import { Card, CardContent } from '@/app/_components/ui/card'
 import { TabsContent } from '@/app/_components/ui/tabs'
 import { Service } from '@prisma/client'
+import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 
 type ServiceItemProps = {
   service: Service
+  isAuthenticated?: string | null
 }
 
 function formatPrice(price: any) {
@@ -16,7 +19,12 @@ function formatPrice(price: any) {
   }).format(price)
 }
 
-const ServiceItem = ({ service }: ServiceItemProps) => {
+const ServiceItem = ({ service, isAuthenticated }: ServiceItemProps) => {
+  const handleBookingClick = () => {
+    if (!isAuthenticated) {
+      signIn('google')
+    }
+  }
   return (
     <TabsContent value="services">
       <Card className="mx-5 mb-3 rounded-[8px]">
@@ -45,7 +53,11 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                   <span className="text-sm font-bold text-primary">
                     {formatPrice(service.price!)}
                   </span>
-                  <Button variant="secondary" className="text-sm font-bold">
+                  <Button
+                    onClick={handleBookingClick}
+                    variant="secondary"
+                    className="text-sm font-bold"
+                  >
                     Reservar
                   </Button>
                 </div>

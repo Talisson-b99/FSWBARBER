@@ -11,6 +11,8 @@ import InfoDetail from './_componentes/Info-detail'
 import ServiceItem from './_componentes/Service-item'
 
 import InfoHeader from './_componentes/Info-header'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 async function getBarberDetails(barberId: string) {
   const barber = await db.barbershop.findUnique({
@@ -26,6 +28,7 @@ async function getBarberDetails(barberId: string) {
 
 const BarberDetails = async ({ params }: { params: { barberId: string } }) => {
   const barber = await getBarberDetails(params.barberId)
+  const session = await getServerSession(authOptions)
 
   if (!barber) return null
   return (
@@ -76,7 +79,11 @@ const BarberDetails = async ({ params }: { params: { barberId: string } }) => {
         </TabsList>
         <div className="mt-6">
           {barber.services.map((service) => (
-            <ServiceItem service={service} key={service.id} />
+            <ServiceItem
+              isAuthenticated={session?.user?.name}
+              service={service}
+              key={service.id}
+            />
           ))}
         </div>
         <InfoDetail />
