@@ -3,39 +3,55 @@ import { db } from '@/app/_lib/prisma'
 import { Card, CardContent } from '@/app/_components/ui/card'
 import { Tabs, TabsList, TabsTrigger } from '@/app/_components/ui/tabs'
 
-import { MapPin, Star } from 'lucide-react'
+import { ChevronLeft, MapPin, MenuIcon, Star } from 'lucide-react'
 
 import Image from 'next/image'
 
 import InfoDetail from './_componentes/Info-detail'
 import ServiceItem from './_componentes/Service-item'
+import { Button } from '@/app/_components/ui/button'
+import Link from 'next/link'
 
 async function getBarberDetails(barberId: string) {
   const barber = await db.barbershop.findUnique({
     where: {
       id: barberId,
     },
+    include: {
+      services: true
+    }
   })
   return barber
 }
 
-async function getServicesToBarber(barberId: string) {
-  const services = await db.service.findMany({
-    where: {
-      barbershopId: barberId,
-    },
-  })
-  return services
-}
+// async function getServicesToBarber(barberId: string) {
+//   const services = await db.service.findMany({
+//     where: {
+//       barbershopId: barberId,
+//     },
+//   })
+//   return services
+// }
 
 const BarberDetails = async ({ params }: { params: { barberId: string } }) => {
   const barber = await getBarberDetails(params.barberId)
-  const services = await getServicesToBarber(params.barberId)
+  // const services = await getServicesToBarber(params.barberId)
 
-  if (!services) return null
   if (!barber) return null
   return (
-    <div className="pb-12">
+    <div className="relative pb-12">
+      <div className="absolute left-0 right-0 z-10 px-5 py-6">
+        <div className="flex justify-between">
+          <Link href={'/'}>
+            <Button size="icon" variant="secondary">
+              <ChevronLeft size={20} />
+            </Button>
+          </Link>
+          <Button size="icon" variant="secondary">
+            <MenuIcon size={20} />
+          </Button>
+        </div>
+      </div>
       <Card className="bg-transparent pb-3">
         <CardContent className="p-0">
           <div className="relative h-60 w-full">
@@ -78,7 +94,7 @@ const BarberDetails = async ({ params }: { params: { barberId: string } }) => {
           </TabsTrigger>
         </TabsList>
         <div className="mt-6">
-          {services.map((service) => (
+          {barber.services.map((service) => (
             <ServiceItem service={service} key={service.id} />
           ))}
         </div>
