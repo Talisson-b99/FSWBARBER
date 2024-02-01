@@ -128,7 +128,7 @@ const ServiceItem = ({
       return
     }
     const refreshAvailableHours = async () => {
-      const _dayBookings = await getDayBookings(date)
+      const _dayBookings = await getDayBookings(barbershop.id, date)
 
       setBookings(_dayBookings)
     }
