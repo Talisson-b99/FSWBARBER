@@ -4,6 +4,8 @@ import './globals.css'
 import Footer from './_components/Footer'
 import AuthProvider from './_providers/auth'
 
+import { Toaster } from './_components/ui/sonner'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -21,6 +23,7 @@ export default function RootLayout({
       <AuthProvider>
         <body className={`inter.className dark`}>
           {children}
+          <Toaster />
           <Footer />
         </body>
       </AuthProvider>

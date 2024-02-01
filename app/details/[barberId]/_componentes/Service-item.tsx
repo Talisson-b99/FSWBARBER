@@ -23,6 +23,8 @@ import { formatPrice } from '../_helpers/formatPrice'
 import { format, setHours, setMinutes } from 'date-fns'
 import { saveBooking } from '../_actions/save-booking'
 import { Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 type ServiceItemProps = {
   barbershop: Barbershop
@@ -38,7 +40,9 @@ const ServiceItem = ({
   const [date, setDate] = useState<Date | undefined>(undefined)
   const [hour, setHour] = useState<string | undefined>(undefined)
   const [loading, setLoading] = useState(false)
+  const [sheetIsOpen, setSheetIsOpen] = useState(false)
   const { data } = useSession()
+  const router = useRouter()
 
   const handleHourClick = (time: string) => {
     setHour(time)
@@ -66,6 +70,19 @@ const ServiceItem = ({
         babershopId: barbershop.id,
         date: newDate,
         userId: (data.user as any).id,
+      })
+
+      setSheetIsOpen(false)
+      setDate(undefined)
+      setHour(undefined)
+      toast('Reseva realizada com sucesso!', {
+        description: format(newDate, "'Para 'dd 'de'   MMMM 'às' HH:mm'.'", {
+          locale: ptBR,
+        }),
+        action: {
+          label: 'Visualizar',
+          onClick: () => router.push('/bookings'),
+        },
       })
     } catch (error) {
       console.log(error)
@@ -110,7 +127,7 @@ const ServiceItem = ({
                   <span className="text-sm font-bold text-primary">
                     {formatPrice(Number(service.price))}
                   </span>
-                  <Sheet>
+                  <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
                     <SheetTrigger asChild>
                       <Button
                         onClick={handleBookingClick}
