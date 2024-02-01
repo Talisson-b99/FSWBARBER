@@ -14,13 +14,15 @@ import {
 import { TabsContent } from '@/app/_components/ui/tabs'
 import { Barbershop, Service } from '@prisma/client'
 import { ptBR } from 'date-fns/locale'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useMemo, useState } from 'react'
 import { generateDayTimeList } from '../_helpers/hours'
 import { motion } from 'framer-motion'
 import { formatPrice } from '../_helpers/formatPrice'
-import { format } from 'date-fns'
+import { format, setHours, setMinutes } from 'date-fns'
+import { saveBooking } from '../_actions/save-booking'
+import { Loader2 } from 'lucide-react'
 
 type ServiceItemProps = {
   barbershop: Barbershop
@@ -35,6 +37,8 @@ const ServiceItem = ({
 }: ServiceItemProps) => {
   const [date, setDate] = useState<Date | undefined>(undefined)
   const [hour, setHour] = useState<string | undefined>(undefined)
+  const [loading, setLoading] = useState(false)
+  const { data } = useSession()
 
   const handleHourClick = (time: string) => {
     setHour(time)
@@ -43,6 +47,30 @@ const ServiceItem = ({
   const handleBookingClick = () => {
     if (!isAuthenticated) {
       signIn('google')
+    }
+  }
+
+  const handleBookingSubmit = async () => {
+    try {
+      setLoading(true)
+      if (!hour || !date || !data?.user) {
+        return null
+      }
+      const dateHour = Number(hour.split(':')[0])
+      const dateMinutes = Number(hour.split(':')[1])
+
+      const newDate = setMinutes(setHours(date, dateHour), dateMinutes)
+
+      await saveBooking({
+        serviceId: service.id,
+        babershopId: barbershop.id,
+        date: newDate,
+        userId: (data.user as any).id,
+      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -102,7 +130,7 @@ const ServiceItem = ({
                         locale={ptBR}
                         onSelect={setDate}
                         fromDate={new Date()}
-                        className="py-6"
+                        className="w-full"
                         styles={{
                           head_cell: {
                             width: '100%',
@@ -190,8 +218,16 @@ const ServiceItem = ({
                         </Card>
                       </div>
                       <SheetFooter className="px-5">
-                        <Button disabled={!hour || !date}>
-                          Confirmar reserva
+                        <Button
+                          className="w-full"
+                          onClick={() => handleBookingSubmit()}
+                          disabled={!hour || !date}
+                        >
+                          {loading ? (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          ) : (
+                            <span> Confirmar reserva</span>
+                          )}
                         </Button>
                       </SheetFooter>
                     </SheetContent>
