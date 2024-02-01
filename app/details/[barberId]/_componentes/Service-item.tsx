@@ -12,11 +12,11 @@ import {
   SheetTrigger,
 } from '@/app/_components/ui/sheet'
 import { TabsContent } from '@/app/_components/ui/tabs'
-import { Barbershop, Service } from '@prisma/client'
+import { Barbershop, Booking, Service } from '@prisma/client'
 import { ptBR } from 'date-fns/locale'
 import { signIn, useSession } from 'next-auth/react'
 import Image from 'next/image'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { generateDayTimeList } from '../_helpers/hours'
 import { motion } from 'framer-motion'
 import { formatPrice } from '../_helpers/formatPrice'
@@ -25,6 +25,7 @@ import { saveBooking } from '../_actions/save-booking'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import { getDayBookings } from '../_actions/get-bookings'
 
 type ServiceItemProps = {
   barbershop: Barbershop
@@ -41,11 +42,16 @@ const ServiceItem = ({
   const [hour, setHour] = useState<string | undefined>(undefined)
   const [loading, setLoading] = useState(false)
   const [sheetIsOpen, setSheetIsOpen] = useState(false)
+  const [dayBookings, setBookings] = useState<Booking[]>([])
   const { data } = useSession()
   const router = useRouter()
 
   const handleHourClick = (time: string) => {
     setHour(time)
+  }
+
+  const handleDateClick = (date: Date | undefined) => {
+    setDate(date)
   }
 
   const handleBookingClick = () => {
@@ -96,7 +102,37 @@ const ServiceItem = ({
   }, [date])
 
   const timeList = useMemo(() => {
-    return date ? generateDayTimeList(date) : []
+    if (!date) {
+      return []
+    }
+
+    return generateDayTimeList(date).filter((time) => {
+      const timeHour = Number(time.split(':')[0])
+      const timeMinutes = Number(time.split(':')[1])
+
+      const booking = dayBookings.find((booking) => {
+        const bookingHour = booking.date.getHours()
+        const bookingMinutes = booking.date.getMinutes()
+
+        return bookingHour === timeHour && bookingMinutes === timeMinutes
+      })
+      if (!booking) {
+        return true
+      }
+      return false
+    })
+  }, [date, dayBookings])
+
+  useEffect(() => {
+    if (!date) {
+      return
+    }
+    const refreshAvailableHours = async () => {
+      const _dayBookings = await getDayBookings(date)
+
+      setBookings(_dayBookings)
+    }
+    refreshAvailableHours()
   }, [date])
 
   return (
@@ -145,7 +181,7 @@ const ServiceItem = ({
                         mode="single"
                         selected={date}
                         locale={ptBR}
-                        onSelect={setDate}
+                        onSelect={handleDateClick}
                         fromDate={new Date()}
                         className="w-full"
                         styles={{

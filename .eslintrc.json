@@ -2,6 +2,7 @@
   "extends": ["@rocketseat/eslint-config/next", "next/core-web-vitals"],
   "rules": {
     "no-var": "off",
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "array-callback-return": "off"
   }
 }
