@@ -3,7 +3,6 @@ import { ptBR } from 'date-fns/locale'
 
 import Header from '../_components/Header'
 import Search from './_components/Search'
-import BookingItem from '../_components/Booking-item'
 import { db } from '../_lib/prisma'
 import BarbershopItem from './_components/Barbershop-item'
 
@@ -30,7 +29,7 @@ export default async function Home() {
         <h2 className="mb-3 text-xs font-bold uppercase text-gray-25">
           Agendamentos
         </h2>
-        <BookingItem />
+        {/* <BookingItem /> */}
       </div>
 
       <div className="px-5 pt-6">
@@ -44,7 +43,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="px-5 pt-6">
+      <div className="px-5 pb-24 pt-6">
         <h2 className="mb-3 text-xs font-bold uppercase text-gray-25">
           Populares
         </h2>

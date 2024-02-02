@@ -4,18 +4,21 @@ import { Button } from './ui/button'
 import { MenuIcon } from 'lucide-react'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import SideMenu from './Side-menu'
+import Link from 'next/link'
 
 const Header = () => {
   return (
     <Card>
       <CardContent className="flex items-center justify-between">
-        <Image
-          src="/logo.png"
-          alt="fsw barber"
-          width={105}
-          height={20}
-          className="h-5"
-        />
+        <Link href={'/'}>
+          <Image
+            src="/logo.png"
+            alt="fsw barber"
+            width={105}
+            height={20}
+            className="h-5"
+          />
+        </Link>
         <Sheet>
           <SheetTrigger asChild>
             <Button size="icon" variant="ghost">

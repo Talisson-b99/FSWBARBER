@@ -61,13 +61,15 @@ const SideMenu = () => {
               </Button>
             </Link>
 
-            <Button
-              variant="outline"
-              className="flex h-9 w-full items-center justify-start gap-2"
-            >
-              <CalendarDays strokeWidth={1} size={16} />
-              Agendamentos
-            </Button>
+            <Link href={'/bookings'}>
+              <Button
+                variant="outline"
+                className="flex h-9 w-full items-center justify-start gap-2"
+              >
+                <CalendarDays strokeWidth={1} size={16} />
+                Agendamentos
+              </Button>
+            </Link>
           </div>
         </>
       ) : (

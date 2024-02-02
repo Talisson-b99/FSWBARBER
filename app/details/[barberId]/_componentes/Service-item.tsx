@@ -174,7 +174,7 @@ const ServiceItem = ({
                       </Button>
                     </SheetTrigger>
                     <SheetContent className="p-0">
-                      <SheetHeader className="border-secodary border-b border-solid px-5 py-6 text-start">
+                      <SheetHeader className=" border-secodary border-b border-solid px-5 py-6 text-start">
                         <SheetTitle>Fazer Reserva</SheetTitle>
                       </SheetHeader>
                       <Calendar
