@@ -13,6 +13,7 @@ import ServiceItem from './_componentes/Service-item'
 import InfoHeader from './_componentes/Info-header'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import Search from '@/app/(home)/_components/Search'
 
 async function getBarberDetails(barberId: string) {
   const barber = await db.barbershop.findUnique({
@@ -62,6 +63,9 @@ const BarberDetails = async ({ params }: { params: { barberId: string } }) => {
           </div>
         </CardContent>
       </Card>
+      <div className="mt-6 px-5">
+        <Search />
+      </div>
       <Tabs className="mb-10 mt-6" defaultValue="services">
         <TabsList className="gap-2.5 bg-transparent px-5">
           <TabsTrigger

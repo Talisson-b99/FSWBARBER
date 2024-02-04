@@ -1,11 +1,26 @@
+'use client'
 import { Prisma } from '@prisma/client'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
 import { Card, CardContent } from './ui/card'
 import { format, isFuture } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from './ui/sheet'
 import { formatPrice } from '../details/[barberId]/_helpers/formatPrice'
+import Image from 'next/image'
+import { Loader2, Smartphone } from 'lucide-react'
+import { Button } from './ui/button'
+import { cancelBooking } from '../_actions/cancel-booking'
+import { toast } from 'sonner'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 type BookingItemProps = {
   booking: Prisma.BookingGetPayload<{
@@ -17,7 +32,22 @@ type BookingItemProps = {
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {
+  const router = useRouter()
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false)
   const isBookingConfirmed = isFuture(booking.date)
+
+  const handleCancelClick = async () => {
+    try {
+      setIsDeleteLoading(true)
+      await cancelBooking(booking.id)
+      toast.success('Reserva cancelada com sucesso!')
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsDeleteLoading(false)
+      router.refresh()
+    }
+  }
   return (
     <div className="min-w-full">
       <Sheet>
@@ -55,30 +85,113 @@ const BookingItem = ({ booking }: BookingItemProps) => {
             </CardContent>
           </Card>
         </SheetTrigger>
-        <SheetContent>
-          <h1 className=" border-b border-solid border-secondary py-6">
-            Informações da Reserva
-          </h1>
-          <Card className="rounded-lg">
-            <CardContent className="p-3">
-              <div className="mb-3 flex justify-between">
-                <h2>{booking.service.name}</h2>
-                <p>{formatPrice(booking.service.price)}</p>
+        <SheetContent className="px-0">
+          <SheetHeader className="border-b border-solid border-secondary px-5 pb-6 text-left">
+            <SheetTitle>Informações da Reserva</SheetTitle>
+          </SheetHeader>
+
+          <div className="relative mt-6 h-[180px] w-full">
+            <Image
+              src="/barber-shop.png"
+              fill
+              alt={booking.barbershop.name}
+              className=" px-5"
+            />
+            <div className="absolute bottom-4 left-0 w-full px-8">
+              <Card className="w-full rounded-[8px]">
+                <CardContent className="p-3">
+                  <div className="flex gap-3">
+                    <Avatar>
+                      <AvatarImage
+                        src={booking.barbershop.imageUrl}
+                        className="object-cover"
+                      />
+                    </Avatar>
+                    <div>
+                      <h2 className="font-bold">{booking.barbershop.name}</h2>
+                      <p className="overflow-hidden text-ellipsis text-nowrap text-xs text-gray-25">
+                        {booking.barbershop.address}{' '}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          <div className="mt-6 px-5">
+            <Badge variant={isBookingConfirmed ? 'default' : 'secondary'}>
+              {isBookingConfirmed ? 'Confirmado' : 'Finalizado'}
+            </Badge>
+            <Card className="mt-3 rounded-lg">
+              <CardContent className="p-3">
+                <div className="flex flex-col space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-bold">{booking.service.name}</h3>
+                    <p className="text-sm font-bold">
+                      {formatPrice(booking.service.price)}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-sm text-gray-25">Data</h4>
+                    <p className="text-sm capitalize">
+                      {format(booking.date, "dd 'de ' MMMM", {
+                        locale: ptBR,
+                      })}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-sm text-gray-25">Horário</h4>
+                    <p className="text-sm capitalize">
+                      {format(booking.date, 'HH:mm')}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-sm text-gray-25">Batbearia</h4>
+                    <p className="text-sm">{booking.barbershop.name}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <div className="mt-6 space-y-3">
+              <div className="flex items-center">
+                <Smartphone size={24} strokeWidth={1.5} className="mr-2.5" />
+                (11) 98204-5108
+                <Button className="ml-auto h-9" variant="secondary">
+                  Copiar
+                </Button>
               </div>
-              <div className="flex justify-between">
-                <p className="text-sm text-gray-25">Data</p>
-                <p>date</p>
+              <div className="flex items-center">
+                <Smartphone size={24} strokeWidth={1.5} className="mr-2.5" />
+                (11) 98204-5108
+                <Button className="ml-auto h-9" variant="secondary">
+                  Copiar
+                </Button>
               </div>
-              <div className="mb-3 mt-3 flex justify-between">
-                <h2 className="text-sm text-gray-25">Horário</h2>
-                <p>{formatPrice(booking.service.price)}</p>
+            </div>
+
+            {isBookingConfirmed && (
+              <div className="mt-6 flex gap-3">
+                <SheetClose asChild>
+                  <Button variant="secondary" className="h-9 w-full">
+                    Voltar
+                  </Button>
+                </SheetClose>
+                <Button
+                  onClick={handleCancelClick}
+                  variant="destructive"
+                  className="h-9 w-full"
+                  disabled={isDeleteLoading}
+                >
+                  {isDeleteLoading ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <span> Cancelar Reserva</span>
+                  )}
+                </Button>
               </div>
-              <div className="flex justify-between">
-                <h2 className="text-sm text-gray-25">Barbearia</h2>
-                <p>{formatPrice(booking.service.price)}</p>
-              </div>
-            </CardContent>
-          </Card>
+            )}
+          </div>
         </SheetContent>
       </Sheet>
     </div>

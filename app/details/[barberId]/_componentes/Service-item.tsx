@@ -87,7 +87,10 @@ const ServiceItem = ({
         }),
         action: {
           label: 'Visualizar',
-          onClick: () => router.push('/bookings'),
+          onClick: () => {
+            router.push('/bookings')
+            router.refresh()
+          },
         },
       })
     } catch (error) {
@@ -210,7 +213,6 @@ const ServiceItem = ({
                         }}
                       />
 
-                      {/*  Mostrar lista de horários apenas se alguma data estiver selecionada */}
                       {date && (
                         <div className="flex gap-3 overflow-x-scroll border-y border-solid border-secondary  px-5 py-6 scrollbar scrollbar-none">
                           {timeList.map((time) => (

@@ -13,9 +13,12 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const SideMenu = () => {
-  const { status, data } = useSession()
+  const { data } = useSession()
+
+  const router = useRouter()
 
   const handleLogoutClick = async () => {
     await signOut()
@@ -23,6 +26,11 @@ const SideMenu = () => {
 
   const handleLoginClick = async () => {
     await signIn('google')
+  }
+
+  const handleBookings = () => {
+    router.push('/bookings')
+    router.refresh()
   }
 
   return (
@@ -61,15 +69,14 @@ const SideMenu = () => {
               </Button>
             </Link>
 
-            <Link href={'/bookings'}>
-              <Button
-                variant="outline"
-                className="flex h-9 w-full items-center justify-start gap-2"
-              >
-                <CalendarDays strokeWidth={1} size={16} />
-                Agendamentos
-              </Button>
-            </Link>
+            <Button
+              onClick={handleBookings}
+              variant="outline"
+              className="flex h-9 w-full items-center justify-start gap-2"
+            >
+              <CalendarDays strokeWidth={1} size={16} />
+              Agendamentos
+            </Button>
           </div>
         </>
       ) : (

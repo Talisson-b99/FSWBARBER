@@ -4,6 +4,8 @@
     "no-var": "off",
     "react-hooks/exhaustive-deps": "off",
     "array-callback-return": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "@next/next/no-async-client-component": "off",
+    "@typescript-eslint/no-non-null-assertion": "off"
   }
 }
