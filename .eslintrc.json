@@ -3,6 +3,7 @@
   "rules": {
     "no-var": "off",
     "react-hooks/exhaustive-deps": "off",
-    "array-callback-return": "off"
+    "array-callback-return": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

@@ -4,7 +4,6 @@ import Header from '../_components/Header'
 import { db } from '../_lib/prisma'
 import { authOptions } from '../api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
-import { isFuture, isPast } from 'date-fns'
 
 const Bookings = async () => {
   const session = await getServerSession(authOptions)
@@ -12,22 +11,38 @@ const Bookings = async () => {
   if (!session) {
     return redirect('/')
   }
-  const bookings = await db.booking.findMany({
-    where: {
-      userId: (session?.user as any).id,
-    },
-    include: {
-      service: true,
-      barbershop: true,
-    },
-  })
-  const cofirmedBookings = bookings.filter((booking) => isFuture(booking.date))
-  const fineshedBookings = bookings.filter((booking) => isPast(booking.date))
+
+  const [cofirmedBookings, fineshedBookings] = await Promise.all([
+    db.booking.findMany({
+      where: {
+        userId: (session?.user as any).id,
+        date: {
+          gte: new Date(),
+        },
+      },
+      include: {
+        service: true,
+        barbershop: true,
+      },
+    }),
+    db.booking.findMany({
+      where: {
+        userId: (session?.user as any).id,
+        date: {
+          lt: new Date(),
+        },
+      },
+      include: {
+        service: true,
+        barbershop: true,
+      },
+    }),
+  ])
 
   return (
-    <>
+    <div className="pb-24">
       <Header />
-      <div className="px-5">
+      <div className=" px-5">
         <h1 className="mt-6 text-xl font-bold">Agendamentos</h1>
         <h3 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-25">
           Confirmados
@@ -46,7 +61,7 @@ const Bookings = async () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
