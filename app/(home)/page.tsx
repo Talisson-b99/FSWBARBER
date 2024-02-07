@@ -68,7 +68,7 @@ export default async function Home() {
             )}
           </div>
           <div>
-            <h2 className="mb-3 text-xs font-bold uppercase text-gray-25 lg:text-sm">
+            <h2 className="hidden lg:flex mb-3 text-xs font-bold uppercase text-gray-25 lg:text-sm">
               Mais visitados
             </h2>
             <div className="px-5 pt-6">
