@@ -56,6 +56,8 @@ const Bookings = async () => {
           </div>
         </>
        )}
+       {fineshedBookings.length > 0 && (
+        <>
         <h3 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-25">
           Finalizados
         </h3>
@@ -64,6 +66,9 @@ const Bookings = async () => {
             <BookingItem key={booking.id} booking={booking} />
           ))}
         </div>
+        </>
+       )}
+  
       </div>
     </div>
   )

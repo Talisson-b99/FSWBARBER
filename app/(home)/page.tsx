@@ -22,6 +22,9 @@ export default async function Home() {
               gte: new Date(),
             },
           },
+          orderBy: {
+            date: 'asc',
+          },
           include: {
             barbershop: true,
             service: true,
@@ -37,7 +40,7 @@ export default async function Home() {
   return (
     <div className="mb-12">
       <Header />
-      <div className=" lg:bg-home bg-none">
+      <div className=" bg-none lg:bg-home">
         <div className="lg:grid lg:grid-cols-2 lg:items-start lg:justify-center lg:gap-32 lg:px-32 lg:py-16">
           <div>
             <div className="px-5 py-6 lg:pt-0">
@@ -68,7 +71,7 @@ export default async function Home() {
             )}
           </div>
           <div>
-            <h2 className="hidden lg:flex mb-3 text-xs font-bold uppercase text-gray-25 lg:text-sm">
+            <h2 className="mb-3 hidden text-xs font-bold uppercase  text-gray-25 lg:flex lg:text-sm">
               Mais visitados
             </h2>
             <div className="px-5 pt-6">

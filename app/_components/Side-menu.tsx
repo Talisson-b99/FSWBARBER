@@ -30,7 +30,7 @@ const SideMenu = () => {
 
   const handleBookings = () => {
     router.push('/bookings')
-    router.refresh()
+    // router.refresh()
   }
 
   return (
