@@ -10,7 +10,7 @@ const Search = () => {
       <Input
         placeholder="Buscar"
         type="text"
-        className="placeholder:text-gray-25 h-9"
+        className="h-9 placeholder:text-gray-25"
       />
       <Button size="search">
         <SearchIcon size={20} />
