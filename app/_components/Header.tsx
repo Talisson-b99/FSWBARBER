@@ -7,7 +7,6 @@ import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import SideMenu from './Side-menu'
 import Link from 'next/link'
 import { signIn, signOut, useSession } from 'next-auth/react'
-import { FaGoogle } from 'react-icons/fa'
 import {
   Dialog,
   DialogClose,
@@ -105,7 +104,6 @@ const Header = () => {
                         className="flex w-28 items-center gap-2"
                         onClick={handleLogintClick}
                       >
-                        <FaGoogle />
                         Google
                       </Button>
                     </div>
