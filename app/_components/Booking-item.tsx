@@ -21,7 +21,17 @@ import { cancelBooking } from '../_actions/cancel-booking'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from './ui/alert-dialog'
 
 type BookingItemProps = {
   booking: Prisma.BookingGetPayload<{
@@ -178,37 +188,47 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                     Voltar
                   </Button>
                 </SheetClose>
-               <AlertDialog>
-                <AlertDialogTrigger asChild>
-                <Button
-                  variant="destructive"
-                  className="h-9 w-full"
-                  disabled={isDeleteLoading}
-                >
-                  {isDeleteLoading ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    <span> Cancelar Reserva</span>
-                  )}
-                </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent className='w-[90%]'>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Deseja mesmo cancelar essa reserva?</AlertDialogTitle>
-                    <AlertDialogDescription>Uma vez cancelada, não será possível reverter essa ação.</AlertDialogDescription>
-                  </AlertDialogHeader> 
-                  <AlertDialogFooter className='flex-row gap-3'>
-                    <AlertDialogCancel className='w-full mt-0'>Voltar</AlertDialogCancel>
-                    <AlertDialogAction disabled={isDeleteLoading} onClick={handleCancelClick} className='w-full'>
-                    {isDeleteLoading ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    <span> Confirmar</span>
-                  )}
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="destructive"
+                      className="h-9 w-full"
+                      disabled={isDeleteLoading}
+                    >
+                      {isDeleteLoading ? (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      ) : (
+                        <span> Cancelar Reserva</span>
+                      )}
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="w-[90%]">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Deseja mesmo cancelar essa reserva?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Uma vez cancelada, não será possível reverter essa ação.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="flex-row gap-3">
+                      <AlertDialogCancel className="mt-0 w-full">
+                        Voltar
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        disabled={isDeleteLoading}
+                        onClick={handleCancelClick}
+                        className="w-full"
+                      >
+                        {isDeleteLoading ? (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        ) : (
+                          <span> Confirmar</span>
+                        )}
                       </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-               </AlertDialog>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             )}
           </div>

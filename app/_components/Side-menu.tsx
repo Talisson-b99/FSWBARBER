@@ -100,7 +100,7 @@ const SideMenu = () => {
 
           <Button
             variant="outline"
-            className="mb-3 mt-6 flex h-9 w-full items-center justify-start gap-2"
+            className="mb-3 mt-3 flex h-9 w-full items-center justify-start gap-2"
           >
             <Home strokeWidth={1} size={16} />
             Início
