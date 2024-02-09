@@ -11,7 +11,7 @@ interface BarbershopsProps {
 }
 
 const BarbershopsPage = async ({ searchParams }: BarbershopsProps) => {
-  if (!searchParams) {
+  if (!searchParams.search) {
     redirect('/')
   }
   const Barbershops = await db.barbershop.findMany({
