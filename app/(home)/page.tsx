@@ -47,9 +47,9 @@ export default async function Home() {
     <div className="mb-1">
       <Header />
       <div className=" bg-none lg:bg-home">
-        <div className="lg:grid lg:grid-cols-2 lg:items-start lg:justify-center lg:gap-32 lg:px-32 lg:py-16">
+        <div className="xl:grid xl:grid-cols-2 xl:items-start xl:justify-center xl:gap-32 xl:px-32 xl:py-16">
           <div>
-            <div className="px-5 py-6 lg:pt-0">
+            <div className="px-5 py-6 xl:pt-0">
               <h2 className="text-xl">
                 Olá <span className="font-bold">{name}!</span>
               </h2>
@@ -64,7 +64,7 @@ export default async function Home() {
             </div>
             {bookings.length > 0 && (
               <div className="px-5 pt-9">
-                <h2 className="mb-3 text-xs font-bold uppercase text-gray-25 lg:text-sm ">
+                <h2 className="mb-3 text-xs font-bold uppercase text-gray-25 xl:text-sm ">
                   Agendamentos
                 </h2>
 
@@ -79,11 +79,11 @@ export default async function Home() {
             )}
           </div>
           <div>
-            <h2 className="mb-3 hidden text-xs font-bold uppercase  text-gray-25 lg:flex lg:text-sm">
+            <h2 className="mb-3 hidden text-xs font-bold uppercase  text-gray-25 xl:flex xl:text-sm">
               Mais visitados
             </h2>
             <div className="px-5 pt-6">
-              <div className=" hidden gap-4 scrollbar-h-1 lg:flex lg:overflow-x-scroll lg:scrollbar lg:scrollbar-thumb-primary lg:scrollbar-thumb-rounded-sm ">
+              <div className=" hidden gap-4 scrollbar-h-1 xl:flex xl:overflow-x-scroll xl:scrollbar xl:scrollbar-thumb-primary xl:scrollbar-thumb-rounded-sm ">
                 {barbershops.map((barbershop) => (
                   <div key={barbershop.id} className="min-w-[167px]">
                     <BarbershopItem barbershop={barbershop} />
