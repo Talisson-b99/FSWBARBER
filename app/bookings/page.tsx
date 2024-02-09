@@ -20,6 +20,9 @@ const Bookings = async () => {
           gte: new Date(),
         },
       },
+      orderBy: {
+        date: 'asc',
+      },
       include: {
         service: true,
         barbershop: true,
@@ -31,6 +34,9 @@ const Bookings = async () => {
         date: {
           lt: new Date(),
         },
+      },
+      orderBy: {
+        date: 'asc',
       },
       include: {
         service: true,
