@@ -39,7 +39,7 @@ export default async function Home() {
     : 'Seja bem-vindo'
 
   return (
-    <div className="mb-12">
+    <div className="mb-1">
       <Header />
       <div className=" bg-none lg:bg-home">
         <div className="lg:grid lg:grid-cols-2 lg:items-start lg:justify-center lg:gap-32 lg:px-32 lg:py-16">
@@ -65,7 +65,9 @@ export default async function Home() {
 
                 <div className="flex gap-3 overflow-x-scroll scrollbar scrollbar-thumb-primary scrollbar-thumb-rounded-sm scrollbar-h-1 ">
                   {bookings.map((booking) => (
-                    <BookingItem key={booking.id} booking={booking} />
+                    <div key={booking.id} className="min-w-[167px]">
+                      <BookingItem booking={booking} />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -78,7 +80,9 @@ export default async function Home() {
             <div className="px-5 pt-6">
               <div className=" hidden gap-4 scrollbar-h-1 lg:flex lg:overflow-x-scroll lg:scrollbar lg:scrollbar-thumb-primary lg:scrollbar-thumb-rounded-sm ">
                 {barbershops.map((barbershop) => (
-                  <BarbershopItem barbershop={barbershop} key={barbershop.id} />
+                  <div key={barbershop.id} className="min-w-[167px]">
+                    <BarbershopItem barbershop={barbershop} />
+                  </div>
                 ))}
               </div>
             </div>
@@ -91,7 +95,9 @@ export default async function Home() {
         </h2>
         <div className="flex gap-4  overflow-x-scroll scrollbar scrollbar-thumb-primary scrollbar-thumb-rounded-sm scrollbar-h-1">
           {barbershops.map((barbershop) => (
-            <BarbershopItem barbershop={barbershop} key={barbershop.id} />
+            <div key={barbershop.id} className="min-w-[167px]">
+              <BarbershopItem barbershop={barbershop} />
+            </div>
           ))}
         </div>
       </div>
@@ -102,7 +108,9 @@ export default async function Home() {
         </h2>
         <div className="flex gap-4  overflow-x-scroll scrollbar scrollbar-thumb-primary scrollbar-thumb-rounded-sm scrollbar-h-1">
           {barbershops.map((barbershop) => (
-            <BarbershopItem barbershop={barbershop} key={barbershop.id} />
+            <div key={barbershop.id} className="min-w-[167px]">
+              <BarbershopItem barbershop={barbershop} />
+            </div>
           ))}
         </div>
       </div>

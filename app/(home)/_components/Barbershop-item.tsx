@@ -14,7 +14,7 @@ type BarbershoItemProps = {
 const BarbershopItem = ({ barbershop }: BarbershoItemProps) => {
   return (
     <Link href={`/details/${barbershop.id}`}>
-      <Card className="min-w-[167px] max-w-[167px] rounded-2xl">
+      <Card className="min-w-full max-w-full rounded-2xl">
         <CardContent className="relative p-1">
           <div className=" absolute left-2 top-2 z-10">
             <Badge className="flex items-center gap-1 bg-[#221c3d]/70">
