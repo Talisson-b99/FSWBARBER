@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation'
 import BarbershopItem from '../(home)/_components/Barbershop-item'
 import Search from '../(home)/_components/Search'
 import Header from '../_components/Header'
@@ -10,6 +11,9 @@ interface BarbershopsProps {
 }
 
 const BarbershopsPage = async ({ searchParams }: BarbershopsProps) => {
+  if (!searchParams) {
+    redirect('/')
+  }
   const Barbershops = await db.barbershop.findMany({
     where: {
       name: {
@@ -22,7 +26,7 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsProps) => {
     <>
       <Header />
       <div className="px-5 py-6">
-        <Search placeholder={searchParams.search} />
+        <Search />
         <h1 className="mb-3 mt-6 text-xs font-bold uppercase text-gray-25">
           Resultados para &ldquo;{searchParams.search}&ldquo;
         </h1>
