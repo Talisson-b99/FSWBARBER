@@ -1,4 +1,4 @@
-import { setHours, setMinutes, format, addMinutes } from 'date-fns'
+import { setHours, setMinutes, format, addMinutes, isAfter } from 'date-fns'
 
 export function generateDayTimeList(date: Date): string[] {
   // Define o horário de início para 09:00
@@ -16,11 +16,16 @@ export function generateDayTimeList(date: Date): string[] {
   // Inicializa a variável de horário atual com o horário de início
   let currentTime = startTime
 
+  // data atual
+  const now = new Date()
+
   // Loop enquanto o horário atual for menor ou igual ao horário for término
   while (currentTime <= endTime) {
-    // Adiciona horário formatado (HH:mm) à lista
-    timeList.push(format(currentTime, 'HH:mm'))
-
+    // Verifica se o horário atual é após o horário atual do sistema.
+    if (isAfter(currentTime, now)) {
+      // Adiciona horário formatado (HH:mm) à lista
+      timeList.push(format(currentTime, 'HH:mm'))
+    }
     // Adiciona o intervalo ao horário atual para o próximo loop
     currentTime = addMinutes(currentTime, interval)
   }
