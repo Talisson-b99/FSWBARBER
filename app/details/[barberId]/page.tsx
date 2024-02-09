@@ -12,8 +12,8 @@ import ServiceItem from './_componentes/Service-item'
 
 import InfoHeader from './_componentes/Info-header'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import Search from '@/app/(home)/_components/Search'
+import { authOptions } from '@/app/_lib/auth'
 
 async function getBarberDetails(barberId: string) {
   const barber = await db.barbershop.findUnique({
