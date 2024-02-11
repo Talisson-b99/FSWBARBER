@@ -11,7 +11,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/app/_components/ui/sheet'
-import { TabsContent } from '@/app/_components/ui/tabs'
 import { Barbershop, Booking, Service } from '@prisma/client'
 import { ptBR } from 'date-fns/locale'
 import { signIn, useSession } from 'next-auth/react'

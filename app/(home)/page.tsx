@@ -46,7 +46,7 @@ export default async function Home() {
   return (
     <div className="mb-1">
       <Header />
-      <div className=" bg-none lg:bg-home">
+      <div className=" bg-none xl:bg-home">
         <div className="xl:grid xl:grid-cols-2 xl:items-start xl:justify-center xl:gap-32 xl:px-32 xl:py-16">
           <div>
             <div className="px-5 py-6 xl:pt-0">
@@ -94,8 +94,8 @@ export default async function Home() {
           </div>
         </div>
       </div>
-      <div className="px-5 pt-6 lg:px-32">
-        <h2 className="mb-3 text-xs font-bold uppercase lg:text-xl">
+      <div className="px-5 pt-6 xl:px-32">
+        <h2 className="mb-3 text-xs font-bold uppercase xl:text-xl">
           Recomendados
         </h2>
         <div className="flex gap-4  overflow-x-scroll scrollbar scrollbar-thumb-primary scrollbar-thumb-rounded-sm scrollbar-h-1">
@@ -107,8 +107,8 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="px-5 pb-24 pt-6 lg:px-32 lg:pt-10">
-        <h2 className="mb-3 text-xs font-bold uppercase  lg:text-xl">
+      <div className="px-5 pb-24 pt-6 xl:px-32 xl:pt-10">
+        <h2 className="mb-3 text-xs font-bold uppercase  xl:text-xl">
           Populares
         </h2>
         <div className="flex gap-4  overflow-x-scroll scrollbar scrollbar-thumb-primary scrollbar-thumb-rounded-sm scrollbar-h-1">

@@ -16,7 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog'
-import { Avatar, AvatarImage } from './ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { useRouter } from 'next/navigation'
 
 const Header = () => {
@@ -33,7 +33,7 @@ const Header = () => {
   return (
     <header>
       <Card>
-        <CardContent className="flex items-center justify-between lg:px-32">
+        <CardContent className="flex items-center justify-between xl:px-32">
           <Link href={'/ '}>
             <Image
               src="/logo.png"
@@ -43,7 +43,7 @@ const Header = () => {
               className="h-5"
             />
           </Link>
-          <div className=" hidden items-center gap-6 lg:flex">
+          <div className=" hidden items-center gap-6 xl:flex">
             <div className="flex items-center gap-2">
               <CalendarDays strokeWidth={2} size={16} />
               <h3 className="text-sm font-bold">Agendamentos</h3>
@@ -56,6 +56,9 @@ const Header = () => {
                     <div className="flex cursor-pointer items-center gap-2">
                       <Avatar>
                         <AvatarImage src={(data?.user as any).image} />
+                        <AvatarFallback>
+                          {data.user.name?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
                       </Avatar>
                       <span className="font-bold">{data.user.name}</span>
                     </div>
@@ -114,7 +117,7 @@ const Header = () => {
               </Dialog>
             </div>
           </div>
-          <div className="lg:hidden">
+          <div className="xl:hidden">
             <Sheet>
               <SheetTrigger asChild>
                 <Button size="icon" variant="ghost">
