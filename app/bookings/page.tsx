@@ -11,6 +11,7 @@ import { getBookingConfirmed } from './_actions/get-booking-confirmed'
 import { getBookingFinished } from './_actions/get-booking-finished'
 import { Decimal } from '@prisma/client/runtime/library'
 import { getSession } from './_actions/get-session'
+import { Loader2 } from 'lucide-react'
 
 type Props = {
   service: {
@@ -40,9 +41,11 @@ const Bookings = () => {
   const [confirmedBookings, setConfirmedBookings] = useState([] as any)
   const [fineshedBookings, setFineshedBookings] = useState([] as any)
   const [infoService, setInfoService] = useState([] as any)
+  const [isLoading, setIsLoading] = useState(false)
 
   const getConfirmedBookings = async () => {
     try {
+      setIsLoading(true)
       const sessionCurrent = await getSession()
 
       const response = await getBookingConfirmed(
@@ -63,6 +66,8 @@ const Bookings = () => {
       setFineshedBookings(response)
     } catch (error) {
       console.error('Erro ao obter reservas confirmadas:', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -88,6 +93,11 @@ const Bookings = () => {
       <div className="hidden xl:mt-10 xl:grid xl:grid-cols-2 xl:gap-10 xl:px-32">
         <div>
           <h1 className="text-2xl font-bold">Agendamentos</h1>
+          {isLoading && (
+            <div>
+              <Loader2 size={40} className="mx mt-10 animate-spin" />
+            </div>
+          )}
           <div>
             <h3 className="mb-3 mt-5 text-xs font-bold uppercase text-gray-25">
               Confirmados
