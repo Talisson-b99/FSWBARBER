@@ -43,7 +43,6 @@ type BookingItemProps = {
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {
-  const router = useRouter()
   const [isDeleteLoading, setIsDeleteLoading] = useState(false)
   const isBookingConfirmed = isFuture(booking.date)
 
@@ -56,7 +55,6 @@ const BookingItem = ({ booking }: BookingItemProps) => {
       console.log(error)
     } finally {
       setIsDeleteLoading(false)
-      router.refresh()
     }
   }
   return (

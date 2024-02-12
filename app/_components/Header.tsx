@@ -46,7 +46,9 @@ const Header = () => {
           <div className=" hidden items-center gap-6 xl:flex">
             <div className="flex items-center gap-2">
               <CalendarDays strokeWidth={2} size={16} />
-              <h3 className="text-sm font-bold">Agendamentos</h3>
+              <Link href="/bookings">
+                <h3 className="text-sm font-bold">Agendamentos</h3>
+              </Link>
             </div>
 
             <div>
@@ -55,7 +57,7 @@ const Header = () => {
                   {data?.user ? (
                     <div className="flex cursor-pointer items-center gap-2">
                       <Avatar>
-                        <AvatarImage src={(data?.user as any).image} />
+                        <AvatarImage src={data?.user.image!} />
                         <AvatarFallback>
                           {data.user.name?.charAt(0).toUpperCase()}
                         </AvatarFallback>

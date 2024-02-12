@@ -6,11 +6,11 @@ import BookingItemDesktop from './components/BookingItemDesktop'
 import Infobooking from './components/info-booking'
 
 import { Drawer, DrawerContent, DrawerTrigger } from '../_components/ui/drawer'
-import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { getBookingConfirmed } from './_actions/get-booking-confirmed'
 import { getBookingFinished } from './_actions/get-booking-finished'
 import { Decimal } from '@prisma/client/runtime/library'
+import { getSession } from './_actions/get-session'
 
 type Props = {
   service: {
@@ -37,17 +37,17 @@ type Props = {
 }
 
 const Bookings = () => {
-  const { data } = useSession()
   const [confirmedBookings, setConfirmedBookings] = useState([] as any)
   const [fineshedBookings, setFineshedBookings] = useState([] as any)
   const [infoService, setInfoService] = useState([] as any)
 
   const getConfirmedBookings = async () => {
     try {
-      if (!data?.user) {
-        return null
-      }
-      const response = await getBookingConfirmed((data?.user as any).id)
+      const sessionCurrent = await getSession()
+
+      const response = await getBookingConfirmed(
+        (sessionCurrent?.user as any).id,
+      )
       setConfirmedBookings(response)
     } catch (error) {
       console.error('Erro ao obter reservas confirmadas:', error)
@@ -56,11 +56,22 @@ const Bookings = () => {
 
   const getFinishedBookings = async () => {
     try {
-      const response = await getBookingFinished((data?.user as any).id)
+      const sessionCurrent = await getSession()
+      const response = await getBookingFinished(
+        (sessionCurrent?.user as any).id,
+      )
       setFineshedBookings(response)
     } catch (error) {
       console.error('Erro ao obter reservas confirmadas:', error)
     }
+  }
+
+  const deleteService = (id: any) => {
+    return setConfirmedBookings(
+      confirmedBookings.filter(
+        (confirmedBooking: any) => confirmedBooking.id !== id,
+      ),
+    )
   }
 
   useEffect(() => {
@@ -96,7 +107,10 @@ const Bookings = () => {
                 ))}
                 <DrawerContent className=" w-[600px] border-0">
                   <div>
-                    <Infobooking booking={infoService} />
+                    <Infobooking
+                      deleteService={deleteService}
+                      booking={infoService}
+                    />
                   </div>
                 </DrawerContent>
               </div>
@@ -107,20 +121,32 @@ const Bookings = () => {
               <h3 className="mb-3 mt-5 text-xs font-bold uppercase text-gray-25">
                 Finalizados
               </h3>
-              <div className="space-y-3">
-                {fineshedBookings?.map((fineshedBooking: Props) => (
-                  <BookingItemDesktop
-                    key={fineshedBooking.id}
-                    booking={fineshedBooking}
-                  />
-                ))}
-              </div>
+              <Drawer>
+                <div className="space-y-3">
+                  {fineshedBookings?.map((fineshedBooking: Props) => (
+                    <>
+                      <DrawerTrigger
+                        onClick={() => setInfoService(fineshedBooking)}
+                        key={fineshedBooking.id}
+                        asChild
+                      >
+                        <BookingItemDesktop booking={fineshedBooking} />
+                      </DrawerTrigger>
+                    </>
+                  ))}
+                  <DrawerContent className=" w-[600px] border-0">
+                    <div>
+                      <Infobooking
+                        deleteService={deleteService}
+                        booking={infoService}
+                      />
+                    </div>
+                  </DrawerContent>
+                </div>
+              </Drawer>
             </div>
           )}
         </div>
-        {/* <div className="xl:mt-10">
-          <Infobooking />
-        </div> */}
       </div>
       <div className="px-5 xl:hidden">
         <h1 className="mt-6 text-xl font-bold">Agendamentos</h1>

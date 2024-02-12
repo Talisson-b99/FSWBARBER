@@ -6,6 +6,7 @@
     "array-callback-return": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@next/next/no-async-client-component": "off",
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off"
   }
 }

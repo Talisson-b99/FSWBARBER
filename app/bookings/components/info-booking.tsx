@@ -1,13 +1,19 @@
+'use client'
+
+import { cancelBooking } from '@/app/_actions/cancel-booking'
 import { Avatar, AvatarImage } from '@/app/_components/ui/avatar'
 import { Badge } from '@/app/_components/ui/badge'
 import { Button } from '@/app/_components/ui/button'
 import { Card, CardContent } from '@/app/_components/ui/card'
+import { DrawerClose } from '@/app/_components/ui/drawer'
 import { formatPrice } from '@/app/details/[barberId]/_helpers/formatPrice'
 import { Prisma } from '@prisma/client'
 import { format, isFuture } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { Smartphone } from 'lucide-react'
+import { Loader2, Smartphone } from 'lucide-react'
 import Image from 'next/image'
+import { useState } from 'react'
+import { toast } from 'sonner'
 
 type BookingItemProps = {
   booking: Prisma.BookingGetPayload<{
@@ -16,10 +22,25 @@ type BookingItemProps = {
       barbershop: true
     }
   }>
+  deleteService: (id: any) => void
 }
 
-const Infobooking = ({ booking }: BookingItemProps) => {
+const Infobooking = ({ booking, deleteService }: BookingItemProps) => {
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false)
   const isBookingConfirmed = isFuture(booking.date)
+
+  const handleCancelClick = async () => {
+    try {
+      setIsDeleteLoading(true)
+      deleteService(booking.id)
+      await cancelBooking(booking.id)
+      toast.success('Reserva cancelada com sucesso!')
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsDeleteLoading(false)
+    }
+  }
 
   return (
     <div className=" hidden xl:mt-[-10px] xl:flex xl:min-h-[full]  xl:flex-col xl:rounded-t-[16px] xl:bg-card">
@@ -107,10 +128,22 @@ const Infobooking = ({ booking }: BookingItemProps) => {
           <p className="text-sm">{booking.barbershop.name}</p>
         </div>
       </div>
-      <div className="mx-5 pt-24">
-        <Button variant="destructive" className="mb-10 w-full">
-          Cancelar Reserva
-        </Button>
+      <div className="mx-5 pb-24 pt-24">
+        {isBookingConfirmed === true && (
+          <DrawerClose asChild>
+            <Button
+              onClick={handleCancelClick}
+              variant="destructive"
+              className="mb-10 w-full"
+            >
+              {isDeleteLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <span>Cancelar Reserva</span>
+              )}
+            </Button>
+          </DrawerClose>
+        )}
       </div>
     </div>
   )
