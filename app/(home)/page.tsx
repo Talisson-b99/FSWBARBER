@@ -7,8 +7,8 @@ import { db } from '../_lib/prisma'
 import BarbershopItem from './_components/Barbershop-item'
 import { getServerSession } from 'next-auth'
 
-import BookingItem from '../_components/Booking-item'
 import { authOptions } from '../_lib/auth'
+import BookingItem from './_components/Booking-item'
 
 export default async function Home() {
   const session = await getServerSession(authOptions)
@@ -71,7 +71,7 @@ export default async function Home() {
                 <div className="flex gap-3 overflow-x-scroll scrollbar scrollbar-thumb-primary scrollbar-thumb-rounded-sm scrollbar-h-1 ">
                   {bookings.map((booking) => (
                     <div key={booking.id} className="w-[500px] min-w-[280px]">
-                      <BookingItem deleteService={() => {}} booking={booking} />
+                      <BookingItem booking={booking} />
                     </div>
                   ))}
                 </div>
