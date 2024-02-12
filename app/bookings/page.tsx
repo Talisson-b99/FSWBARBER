@@ -98,34 +98,36 @@ const Bookings = () => {
               <Loader2 size={40} className="mx mt-10 animate-spin" />
             </div>
           )}
-          <div>
-            <h3 className="mb-3 mt-5 text-xs font-bold uppercase text-gray-25">
-              Confirmados
-            </h3>
-            <Drawer>
-              <div className="space-y-3">
-                {confirmedBookings?.map((confirmedBooking: Props) => (
-                  <>
-                    <DrawerTrigger
-                      onClick={() => setInfoService(confirmedBooking)}
-                      key={confirmedBooking.id}
-                      asChild
-                    >
-                      <BookingItemDesktop booking={confirmedBooking} />
-                    </DrawerTrigger>
-                  </>
-                ))}
-                <DrawerContent className=" w-[600px] border-0">
-                  <div>
-                    <Infobooking
-                      deleteService={deleteService}
-                      booking={infoService}
-                    />
-                  </div>
-                </DrawerContent>
-              </div>
-            </Drawer>
-          </div>
+          {confirmedBookings.length > 0 && (
+            <div>
+              <h3 className="mb-3 mt-5 text-xs font-bold uppercase text-gray-25">
+                Confirmados
+              </h3>
+              <Drawer>
+                <div className="space-y-3">
+                  {confirmedBookings?.map((confirmedBooking: Props) => (
+                    <>
+                      <DrawerTrigger
+                        onClick={() => setInfoService(confirmedBooking)}
+                        key={confirmedBooking.id}
+                        asChild
+                      >
+                        <BookingItemDesktop booking={confirmedBooking} />
+                      </DrawerTrigger>
+                    </>
+                  ))}
+                  <DrawerContent className=" w-[600px] border-0">
+                    <div>
+                      <Infobooking
+                        deleteService={deleteService}
+                        booking={infoService}
+                      />
+                    </div>
+                  </DrawerContent>
+                </div>
+              </Drawer>
+            </div>
+          )}
           {fineshedBookings.length > 0 && (
             <div>
               <h3 className="mb-3 mt-5 text-xs font-bold uppercase text-gray-25">
@@ -167,7 +169,11 @@ const Bookings = () => {
             </h3>
             <div className="flex flex-col gap-3">
               {confirmedBookings?.map((booking: Props) => (
-                <BookingItem key={booking.id} booking={booking} />
+                <BookingItem
+                  deleteService={deleteService}
+                  key={booking.id}
+                  booking={booking}
+                />
               ))}
             </div>
           </>
@@ -179,7 +185,11 @@ const Bookings = () => {
             </h3>
             <div className="flex flex-col gap-3">
               {fineshedBookings.map((booking: Props) => (
-                <BookingItem key={booking.id} booking={booking} />
+                <BookingItem
+                  deleteService={deleteService}
+                  key={booking.id}
+                  booking={booking}
+                />
               ))}
             </div>
           </>

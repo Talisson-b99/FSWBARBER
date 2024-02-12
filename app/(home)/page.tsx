@@ -71,7 +71,7 @@ export default async function Home() {
                 <div className="flex gap-3 overflow-x-scroll scrollbar scrollbar-thumb-primary scrollbar-thumb-rounded-sm scrollbar-h-1 ">
                   {bookings.map((booking) => (
                     <div key={booking.id} className="w-[500px] min-w-[280px]">
-                      <BookingItem booking={booking} />
+                      <BookingItem deleteService={() => {}} booking={booking} />
                     </div>
                   ))}
                 </div>

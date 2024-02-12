@@ -40,21 +40,25 @@ type BookingItemProps = {
       barbershop: true
     }
   }>
+  deleteService: (id: any) => void
 }
 
-const BookingItem = ({ booking }: BookingItemProps) => {
+const BookingItem = ({ booking, deleteService }: BookingItemProps) => {
   const [isDeleteLoading, setIsDeleteLoading] = useState(false)
   const isBookingConfirmed = isFuture(booking.date)
+  const router = useRouter()
 
   const handleCancelClick = async () => {
     try {
       setIsDeleteLoading(true)
       await cancelBooking(booking.id)
       toast.success('Reserva cancelada com sucesso!')
+      deleteService(booking.id)
     } catch (error) {
       console.log(error)
     } finally {
       setIsDeleteLoading(false)
+      router.refresh()
     }
   }
   return (
